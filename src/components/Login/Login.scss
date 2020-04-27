@@ -1,0 +1,42 @@
+.header{
+  position: absolute;
+  margin-top: -0.625em;
+  top: 35%;
+  left: 10%;
+  cursor: default;
+  &__heading{
+    margin-bottom: 0.3em;
+  }
+  &__label{
+    z-index: -1;
+    display: block;
+    position: absolute;
+    bottom: 1%;
+    font-size: 4em;
+    background: none;
+    color: grey;
+    transition: color .2s ease;
+  }
+  &__input{
+    font-size: 4em;
+    border: none;
+    font-weight: bold;
+    caret-color: #ededed;
+    font-family: inherit;
+    outline: none;
+    background: transparent;
+    text-decoration: none;
+    background: linear-gradient(45deg, rgba(0,232,255,1) 0%, rgba(241,176,255,1) 37%, rgba(241,176,255,1) 68%, rgba(0,232,255,1) 91%);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    z-index: 9999;
+    &:valid, &:focus{
+      ~ .header__label{
+        color: transparent;
+        transition: color .2s ease;
+      }
+    }
+  }
+}
