@@ -1,0 +1,38 @@
+.chat{
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 1000px;
+  height: 700px;
+  color: #ededed;
+  overflow: hidden;
+  &__window{
+    height: 500px;
+  }
+  &__input{
+    text-align: start;
+    resize: none;
+    color: #ededed;
+    margin-top: 2em;
+    height: 100px;
+    width: 1000px;
+    background: transparent;
+    outline: none;
+    border: none;
+    caret-color: #ededed;
+    font-size: 1.3em;
+    font-family: inherit;
+    border-bottom: 1px solid #ededed;
+  }
+  &__send{
+    position: absolute;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 3em;
+    &:hover{
+      color: #00e8ff;
+    }
+  }
+}
