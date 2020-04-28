@@ -1,0 +1,41 @@
+.users{
+  position: absolute;
+  top: 10%;
+  left: 3%;
+  width: 15em;
+  height: 700px;
+  color: #ededed;
+  overflow: hidden;
+  &__copy{
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 3em;
+    &:hover{
+      color: #00e8ff;
+    }
+  }
+  &__list{
+    margin-top: 2em;
+    font-size: 1.5em;
+  }
+  &__ullist{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 2px solid #00e8ff;
+    height: 550px;
+    width: 15em;
+    overflow-y: scroll;
+    white-space: nowrap;
+    overflow-x: hidden;
+  }
+  &__listitem{
+    margin-top: 1em;
+    text-overflow: ellipsis;
+    width: 235px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
