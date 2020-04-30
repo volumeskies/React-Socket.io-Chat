@@ -16,37 +16,37 @@ class Login extends React.Component{
 
     componentDidMount() {
         this.props.socket.on('roomID', data=>{
-            this.setRoomID(`${data['roomID']}`);
-            this.setState(state=>({
-                logged: !state.logged
-            }));
+            console.log('on roomID', data.roomID);
+            this.setState({
+                logged: !this.state.logged,
+                roomID: data.roomID
+            });
         })
-    }
-
-    setRoomID(roomID){
-        this.setState(state=>({ roomID: roomID }));
     }
 
     handleKeyPress(event){
         if(event.keyCode === 13){
             this.props.socket.emit('login', {
-                username: `${event.target.value}`
+                username: `${event.target.value}`,
+                invited: this.props.location.state !== undefined?`${this.props.location.state.roomID}`:false,
             })
         }
     }
 
     render(){
         return(
-            <header class='header'>
-                {this.state.logged ? <Redirect to={{
-                    pathname: `room/${this.state.roomID}`,
-                    state: {
-                        logged: this.state.logged
-                    }
-                }}/> : ''}
-                <h1 class='header__heading'>welcome to chat</h1>
-                <input class='header__input' type='text' maxLength='20' title=' ' required onKeyDown={this.handleKeyPress}/>
-                <label class='header__label'>enter your name</label>
+            <header className='header'>
+                {this.state.logged ?
+                    <Redirect to={{
+                        pathname: `room/${this.state.roomID}`,
+                        state: {
+                                logged: this.state.logged,
+                                roomID: this.state.roomID
+                        }}} />
+                    : ''}
+                <h1 className='header__heading'>welcome to chat</h1>
+                <input className='header__input' type='text' maxLength='20' title=' ' required onKeyDown={this.handleKeyPress}/>
+                <label className='header__label'>enter your name</label>
             </header>
         );
     }
