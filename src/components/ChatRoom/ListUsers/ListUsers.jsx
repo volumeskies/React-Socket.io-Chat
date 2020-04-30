@@ -5,9 +5,25 @@ import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
 class ListUsers extends React.Component{
     constructor(props) {
         super(props);
+        this.state={
+            users: []
+        }
+    }
+
+    componentDidMount() {
+        this.props.socket.on('userJoined', data=>{
+            console.log(`${data.username} joined`);
+            this.setState({users: [...this.state.users, data.username]});
+        });
+
+        this.props.socket.on('listUsers', data=>{
+            console.log('onlist users', data.users);
+            this.setState({users: data.users});
+        });
     }
 
     render() {
+        const listUsers = this.state.users.map((user)=> <li className = 'users__listitem'>{user}</li>)
         return(
             <div className='users'>
                 <CopyToClipboard text={window.location.href}>
@@ -16,25 +32,7 @@ class ListUsers extends React.Component{
                 <div className='users__list'>
                     Users in this room:
                     <ul className='users__ullist'>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name2</li>
-                        <li className='users__listitem'>Name3</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Name1</li>
-                        <li className='users__listitem'>Namssssssssssssssssssssssssssssssssse1</li>
+                        {listUsers}
                     </ul>
                 </div>
             </div>
