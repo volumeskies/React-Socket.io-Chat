@@ -12,7 +12,7 @@ class App extends React.Component{
     render(){
         return(
             <Router history={BrowserHistory}>
-                <Route path='/' exact component={() => (<Login socket={this.props.socket}/>)}/>
+                <Route path='/' exact component={(props) => (<Login {...props} socket={this.props.socket}/>)}/>
                 <Route path='/room/:id' exact component={(props) => (<ChatRoom {...props} socket={this.props.socket}/>)}/>
             </Router>
         );
