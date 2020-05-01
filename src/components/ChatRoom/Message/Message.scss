@@ -1,0 +1,16 @@
+.message{
+  &__sender{
+    font-size: 1.2em;
+    color: #CEB8FF;
+  }
+  &__date{
+    margin-left: 10px;
+    font-size: 0.9em;
+    color: #00e8ff;
+  }
+  &__text{
+    margin: 0.5em 0 1em 0;
+    font-weight: 200;
+    font-size: 0.9em;
+  }
+}
