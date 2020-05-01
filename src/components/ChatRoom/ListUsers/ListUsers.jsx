@@ -12,13 +12,20 @@ class ListUsers extends React.Component{
 
     componentDidMount() {
         this.props.socket.on('userJoined', data=>{
-            console.log(`${data.username} joined`);
             this.setState({users: [...this.state.users, data.username]});
         });
 
         this.props.socket.on('listUsers', data=>{
-            console.log('onlist users', data.users);
-            this.setState({users: data.users});
+            this.setState({users: [...data.users]});
+        });
+
+        this.props.socket.on('userDisconnected', data=>{
+            const index = this.state.users.indexOf(data.username);
+            const users = this.state.users.filter((elem, indx)=>{
+                if(indx !== index)
+                    return elem;
+            })
+            this.setState({users: [...users]});
         });
     }
 
@@ -30,7 +37,7 @@ class ListUsers extends React.Component{
                     <a className='users__copy'>copy link</a>
                 </CopyToClipboard>
                 <div className='users__list'>
-                    Users in this room:
+                    Users online:
                     <ul className='users__ullist'>
                         {listUsers}
                     </ul>
