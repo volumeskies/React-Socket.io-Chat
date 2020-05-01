@@ -10,13 +10,15 @@ class ChatRoom extends React.Component{
         super(props);
         this.state={
             logged: this.props.location.state !== undefined,
-            roomID: this.props.location.state !== undefined? this.props.location.state.roomID : '',
+            roomID: this.props.location.state !== undefined ? this.props.location.state.roomID : '',
         }
     }
 
     componentDidMount(){
-        this.props.socket.emit('getUsers', {roomID: this.state.roomID});
-        this.props.socket.emit('getMessages', {roomID: this.state.roomID});
+        if(this.props.location.state !== undefined){
+            this.props.socket.emit('getUsers', {roomID: this.state.roomID});
+            this.props.socket.emit('getMessages', {roomID: this.state.roomID});
+        }
     }
 
     render(){
