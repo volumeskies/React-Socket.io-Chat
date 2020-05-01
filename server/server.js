@@ -24,9 +24,9 @@ const io = socket(server);
 let users = [];
 
 /* An array of current rooms */
-let rooms = [];
+let rooms = {};
 
-/* Handling user's behaviour in app */
+/* Handling user's behavior in app */
 io.sockets.on('connection', function(socket) {
     console.log("server connection with socket: ", socket.id);
     // User logged in event
@@ -47,7 +47,8 @@ io.sockets.on('connection', function(socket) {
         user.room = roomID;
         users.push(user);
 
-        rooms.push(roomID);
+        if(!rooms[roomID])
+            rooms[roomID] = [];
 
         socket.join(`${roomID}`);
 
@@ -56,23 +57,62 @@ io.sockets.on('connection', function(socket) {
 
         // Send to everyone except current socket
         socket.to(`${roomID}`).emit('userJoined', {username: user.username});
-
-        console.log(users);
     });
 
-    socket.on('getUsers', data => {
+    // Get list of users in room
+    socket.on('getUsers', data=>{
        let listUsers = [];
        users.forEach(elem => {
-           console.log('elem', elem.username, data.roomID);
-           if(elem.room === data.roomID) {
+           if(elem.room === data.roomID)
                listUsers.push(elem.username);
-               console.log(elem.username);
-           }
        });
-
-       console.log('list', listUsers);
-
        socket.emit('listUsers', {users: listUsers});
     });
 
+    // Send message to room
+    socket.on('sendMessage', data=>{
+        const date = new Date();
+        const dateFormat = new Intl.DateTimeFormat('en' ,{hour12: false, weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})
+        const dateFormatted = dateFormat.format(date);
+        let username = '';
+        let roomID = '';
+        users.forEach(elem => {
+            if(elem.socket === socket.id){
+                username = elem.username;
+                roomID = elem.room;
+            }
+        })
+        let dataMessage = [{sender: username, date: dateFormatted, text: data.message}];
+        rooms[roomID] = rooms[roomID].concat(dataMessage);
+        io.in(`${roomID}`).emit('newMessage', dataMessage);
+    });
+
+    // Get previous messages
+    socket.on('getMessages', data=>{
+        let messages = rooms[`${data.roomID}`];
+        socket.emit('chatHistory', {messages: messages});
+    });
+
+    // Delete user from listUsers when he/she/whoever disconnects
+    socket.on('disconnect', ()=>{
+        // Searching for socket's room id and username
+        let roomID = '';
+        let username = '';
+        users.forEach(elem =>{
+            if(elem.socket === socket.id){
+                username = elem.username;
+                roomID = elem.room;
+            }
+        })
+
+        // Delete disconnected user from array users
+        const index = users.map((elem)=>{ return elem.username; }).indexOf(username);
+        users = users.filter((elem, indx)=>{
+            if(indx !== index)
+                return elem;
+        })
+
+        // Tell other users that this user has disconnected
+        socket.to(`${roomID}`).emit('userDisconnected', {username: username});
+    })
 });
