@@ -1,36 +1,45 @@
 .chat{
   position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 1000px;
-  height: 700px;
+  top: 8%;
+  left: 25%;
+  width: 45em;
+  height: 36em;
   color: #ededed;
   overflow: hidden;
   &__window{
-    height: 500px;
+    height: 28em;
+    margin: 0;
+    padding: 0;
+    width: 45em;
+    overflow: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
   &__input{
     text-align: start;
     resize: none;
     color: #ededed;
-    margin-top: 2em;
-    height: 100px;
-    width: 1000px;
+    margin-top: 1em;
+    height: 3em;
+    width: 45em;
     background: transparent;
     outline: none;
     border: none;
     caret-color: #ededed;
-    font-size: 1.3em;
+    font-size: 1em;
     font-family: inherit;
     border-bottom: 1px solid #ededed;
   }
   &__send{
+    display: block;
     position: absolute;
     text-decoration: none;
     outline: none;
     cursor: pointer;
     font-weight: bold;
-    font-size: 3em;
+    font-size: 2em;
     &:hover{
       color: #00e8ff;
     }
