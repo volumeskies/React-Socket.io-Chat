@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/volumeskies/chat#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
